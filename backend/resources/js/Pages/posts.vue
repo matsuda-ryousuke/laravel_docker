@@ -67,92 +67,89 @@
                                         {{ $page.errors.title[0] }}
                                     </div>
                                 </div>
-                                <hr>
+                                <hr />
                                 <div class="mt-4 block text-gray-700 text-sm font-bold mb-2">業務報告(午前):</div>
                                 <div class="mb-4">
+                                    <div v-if="$page.errors.client_am" class="text-red-500">
+                                        {{ $page.errors.client_am[0] }}
+                                    </div>
                                     <label class="block text-gray-700 text-sm font-bold mb-2">
                                         顧客名:
                                         <select v-model="form.client_am">
                                             <option disabled value="">顧客を選択してください</option>
-                                            <option v-for="client in client_am"
-                                                v-bind:value="client.id">
+                                            <option v-for="client in client_am" v-bind:value="client.id">
                                                 {{ client.name }}
                                             </option>
                                         </select>
                                     </label>
-                                    <div v-if="$page.errors.title" class="text-red-500">
-                                        {{ $page.errors.title[0] }}
-                                    </div>
                                 </div>
 
                                 <div class="mb-4">
+                                    <div v-if="$page.errors.summary_am" class="text-red-500">
+                                        {{ $page.errors.summary_am[0] }}
+                                    </div>
                                     <label for="exampleFormControlInput1" class="block text-gray-700 text-sm font-bold mb-2">
-                                    <textarea
-                                        class="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                        id="exampleFormControlInput2"
-                                        v-model="form.summary_am"
-                                        placeholder="業務"
-                                    ></textarea>
+                                        <textarea
+                                            class="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                            id="exampleFormControlInput2"
+                                            v-model="form.summary_am"
+                                            placeholder="業務"
+                                        ></textarea>
                                     </label>
-                                    <div v-if="$page.errors.title" class="text-red-500">
-                                        {{ $page.errors.title[0] }}
-                                    </div>
                                 </div>
 
-
                                 <div class="mb-4">
+                                    <div v-if="$page.errors.contents_am" class="text-red-500">
+                                        {{ $page.errors.contents_am[0] }}
+                                    </div>
                                     <textarea
                                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                         id="exampleFormControlInput2"
                                         v-model="form.contents_am"
                                         placeholder="内容"
                                     ></textarea>
-                                    <div v-if="$page.errors.body" class="text-red-500">
-                                        {{ $page.errors.body[0] }}
-                                    </div>
                                 </div>
-                                <hr>
+                                <hr />
                                 <div class="mt-4 block text-gray-700 text-sm font-bold mb-2">業務報告(午後):</div>
                                 <div class="mb-4">
+                                    <div v-if="$page.errors.client_pm" class="text-red-500">
+                                        {{ $page.errors.client_pm[0] }}
+                                    </div>
                                     <label class="block text-gray-700 text-sm font-bold mb-2">
                                         顧客名:
                                         <select v-model="form.client_pm">
                                             <option disabled value="">顧客を選択してください</option>
-                                            <option v-for="client in client_pm"
-                                                v-bind:value="client.id">
+                                            <option v-for="client in client_pm" v-bind:value="client.id">
                                                 {{ client.name }}
                                             </option>
                                         </select>
                                     </label>
-                                    <div v-if="$page.errors.title" class="text-red-500">
-                                        {{ $page.errors.title[0] }}
-                                    </div>
                                 </div>
 
                                 <div class="mb-4">
+                                    <div v-if="$page.errors.summary_pm" class="text-red-500">
+                                        {{ $page.errors.summary_pm[0] }}
+                                    </div>
                                     <label for="exampleFormControlInput1" class="block text-gray-700 text-sm font-bold mb-2">
-                                    <textarea
-                                        class="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                        id="exampleFormControlInput2"
-                                        v-model="form.summary_pm"
-                                        placeholder="業務"
-                                    ></textarea>
+                                        <textarea
+                                            class="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                            id="exampleFormControlInput2"
+                                            v-model="form.summary_pm"
+                                            placeholder="業務"
+                                        ></textarea>
                                     </label>
-                                    <div v-if="$page.errors.title" class="text-red-500">
-                                        {{ $page.errors.title[0] }}
-                                    </div>
                                 </div>
 
                                 <div class="mb-4">
+                                    <div v-if="$page.errors.contents_pm" class="text-red-500">
+                                        {{ $page.errors.contents_pm[0] }}
+                                    </div>
                                     <textarea
                                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                         id="exampleFormControlInput2"
                                         v-model="form.contents_pm"
                                         placeholder="内容"
                                     ></textarea>
-                                    <div v-if="$page.errors.body" class="text-red-500">
-                                        {{ $page.errors.body[0] }}
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -234,9 +231,6 @@ export default {
         client_pm: function() {
             return this.data2;
         },
-
-
-
     },
     methods: {
         openModal: function() {
@@ -244,8 +238,16 @@ export default {
         },
         reset: function() {
             this.form = {
-                title: null,
-                body: null,
+                user: null,
+                team: null,
+                date: null,
+                summary_am: null,
+                contents_am: null,
+                summary_pm: null,
+                contents_pm: null,
+                status: null,
+                client_am: null,
+                client_pm: null,
             };
         },
         save: function(data) {
