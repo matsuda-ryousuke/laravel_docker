@@ -55,10 +55,8 @@ class HomeController extends Controller
             'user' => ['required'],
             'team' => ['required'],
             'summary_am' => ['required'],
-            'client_am' => ['required'],
             'contents_am' => ['required'],
             'summary_pm' => ['required'],
-            'client_pm' => ['required'],
             'contents_pm' => ['required'],
         ])->validate();
 
@@ -76,17 +74,18 @@ class HomeController extends Controller
      */
     public function update(Request $request)
     {
-        Validator::make($request->all(), [
-            'user' => ['required'],
-            'team' => ['required'],
-            'summary_am' => ['required'],
-            'client_am' => ['required'],
-            'contents_am' => ['required'],
-            'summary_pm' => ['required'],
-            'client_pm' => ['required'],
-            'contents_pm' => ['required'],
+        Validator::make(
+            $request->all(),
+            [
+                'user' => ['required'],
+                'team' => ['required'],
+                'summary_am' => ['required'],
+                'contents_am' => ['required'],
+                'summary_pm' => ['required'],
+                'contents_pm' => ['required'],
 
-        ])->validate();
+            ]
+        )->validate();
 
         if ($request->has('id')) {
             Post::find($request->input('id'))->update($request->all());

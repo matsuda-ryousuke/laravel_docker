@@ -46,20 +46,21 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-
-        //user id と team id が整合性取れる場合のみ入力できる様にしたい
+        // user id と team id が整合性取れる場合のみ入力できる様にしたい
         Validator::make(
             $request->all(),
             [
                 'user' => ['required'],
                 'team' => ['required'],
-                // 'date' => ['required'],
+                'date' => ['required'],
                 'summary_am' => ['required'],
                 'contents_am' => ['required'],
                 'summary_pm' => ['required'],
                 'contents_pm' => ['required'],
-                // 'client_pm' => ['required'],
                 'status' => ['required'],
+
+                'client_am' => ['present', 'nullable'],
+                'client_pm' => ['present', 'nullable'],
             ],
             [
                 'summary_am.required' => '午前の業務について記載がありません。',
@@ -68,8 +69,6 @@ class PostController extends Controller
                 'contents_pm.required' => '午後の業務内容についての記載がありません。',
             ],
         )->validate();
-
-        var_dump($request);
         Post::create($request->all());
 
         return redirect()->back()
