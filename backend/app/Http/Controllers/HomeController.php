@@ -6,10 +6,8 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Post;
 use Illuminate\Support\Facades\Validator;
+use App\Models\User;
 
-
-// user情報取得用
-use Illuminate\Support\Facades\Auth;
 
 
 class HomeController extends Controller
@@ -25,7 +23,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-
         // $data = Post::all();
         $data = Post::select(
             'posts.*',
@@ -33,27 +30,18 @@ class HomeController extends Controller
             'client_a.name as client_name_am',
             'client_p.name as client_name_pm',
             'teams.name as team_name',
-            )
+            'users.role_id as role_id'
+        )
             ->join('users', 'posts.user', '=', 'users.id')
             ->join('teams', 'posts.team', '=', 'teams.id')
-            ->join('clients as client_a', 'posts.client_am', '=', 'client_a.id')
-            ->join('clients as client_p', 'posts.client_pm', '=', 'client_p.id')
+            ->leftjoin('clients as client_a', 'posts.client_am', '=', 'client_a.id')
+            ->leftjoin('clients as client_p', 'posts.client_pm', '=', 'client_p.id')
+            ->join('roles', 'roles.role_id', '=', 'users.role_id')
             ->get();
 
-        $user = Auth::user();
-        // var_dump($data);
-
-        // var_dump($user["role_id"]);
         $conf = config('setting.status');
 
         return Inertia::render('dashboard', ['data' => $data, 'conf' => $conf]);
-
-        //管理者用ページ
-        // if ($user["role_id"] == 1) {
-        //     return Inertia::render('admin', ['data' => $data, 'conf' => $conf]);
-        // } else {
-        //     return Inertia::render('dashboard', ['data' => $data, 'conf' => $conf]);
-        // }
     }
 
     /**
@@ -64,8 +52,14 @@ class HomeController extends Controller
     public function store(Request $request)
     {
         Validator::make($request->all(), [
+            'user' => ['required'],
+            'team' => ['required'],
             'summary_am' => ['required'],
+            'client_am' => ['required'],
             'contents_am' => ['required'],
+            'summary_pm' => ['required'],
+            'client_pm' => ['required'],
+            'contents_pm' => ['required'],
         ])->validate();
 
         Post::create($request->all());
@@ -73,18 +67,7 @@ class HomeController extends Controller
         return redirect()->back()
             ->with('message', 'Post Created Successfully.');
     }
-    public function retryPost(Request $request)
-    {
-        Validator::make($request->all(), [
-            'comment' => ['required'],
-        ])->validate();
 
-        if ($request->has('id')) {
-            Post::find($request->input('id'))->update($request->all());
-            return redirect()->back()
-                ->with('message', 'Post');
-        }
-    }
 
     /**
      * Show the form for creating a new resource.
